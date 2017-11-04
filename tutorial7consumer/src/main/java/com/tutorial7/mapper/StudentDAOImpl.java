@@ -33,8 +33,9 @@ public class StudentDAOImpl implements StudentDAO {
 
 	@Override
 	public List<StudentModel> selectAllStudents() {
-		// TODO Auto-generated method stub
-		return null;
+		log.info("REST - select all students");
+		List<StudentModel> students = restTemplate.getForObject("http://localhost:8080/rest/student/viewall", List.class);
+		return students;
 	}
 
 }
