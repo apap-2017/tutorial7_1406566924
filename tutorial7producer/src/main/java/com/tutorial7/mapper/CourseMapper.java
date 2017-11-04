@@ -24,5 +24,19 @@ public interface CourseMapper {
 	CourseModel selectCourse(@Param("idCourse") String idCourse);
 	
 	@Select("SELECT student.npm, name, gpa FROM student join studentcourse on student.npm = studentcourse.npm WHERE studentcourse.id_course = #{id_course}")
+	@Results(value = {
+	         @Result(property = "npm", column = "npm"),
+	         @Result(property = "name", column = "name"),
+	         @Result(property = "gpa", column = "gpa")
+	         })
 	List<StudentModel> selectStudents(@Param("id_course") String idCourse);
+	
+	@Select("SELECT id_course, name, credits FROM course") 
+	@Results(value = {
+	         @Result(property = "idCourse", column = "id_course"),
+	         @Result(property = "name", column = "name"),
+	         @Result(property = "credits", column = "credits"),
+	         @Result(property = "students", column = "id_course", javaType = List.class, many = @Many(select = "selectStudents")) 
+	         })
+	List<CourseModel> selectAllCourses();
 }
